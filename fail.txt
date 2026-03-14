@@ -1,0 +1,35 @@
+bun test v1.3.10 (30e609e0)
+[dotenv@17.3.1] injecting env (0) from .env -- tip: 🛡️ auth for agents: https://vestauth.com
+\n
+src\__tests__\transfer.test.ts:
+Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+      at deprecatedSslModeWarning (X:\Bun\miniwalletapi\node_modules\pg-connection-string\index.js:216:13)
+      at parse (X:\Bun\miniwalletapi\node_modules\pg-connection-string\index.js:143:11)
+      at new ConnectionParameters (X:\Bun\miniwalletapi\node_modules\pg\lib\connection-parameters.js:60:42)
+      at new Client (X:\Bun\miniwalletapi\node_modules\pg\lib\client.js:43:33)
+      at newClient (X:\Bun\miniwalletapi\node_modules\pg-pool\index.js:241:20)
+      at connect (X:\Bun\miniwalletapi\node_modules\pg-pool\index.js:235:10)
+      at query (X:\Bun\miniwalletapi\node_modules\pg-pool\index.js:449:10)
+      at <anonymous> (X:\Bun\miniwalletapi\node_modules\drizzle-orm\node-postgres\session.js:113:33)
+      at queryWithCache (X:\Bun\miniwalletapi\node_modules\drizzle-orm\pg-core\session.js:39:22)
+
+(fail) POST /transactions/transfer > valid transfer deducts from sender and credits receiver [7469.00ms]
+  ^ this test timed out after 5000ms.
+(pass) POST /transactions/transfer > returns 422 for insufficient funds [3515.00ms]
+(pass) POST /transactions/transfer > returns 404 if sender does not exist [2782.00ms]
+(pass) POST /transactions/transfer > returns 404 if receiver does not exist [2797.00ms]
+(pass) POST /transactions/transfer > returns 400 if sender and receiver are the same [2078.00ms]
+(pass) POST /transactions/transfer > returns 400 for amount = 0, negative, or invalid string [2156.00ms]
+(pass) POST /transactions/transfer > handles duplicate idempotency key correctly [4141.00ms]
+
+ 6 pass
+ 1 fail
+ 18 expect() calls
+Ran 7 tests across 1 file. [25.40s]

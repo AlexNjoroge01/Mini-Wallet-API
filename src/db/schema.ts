@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, numeric, timestamp, check, pgEnum, AnyPgColumn } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, numeric, timestamp, check, pgEnum, type AnyPgColumn } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 
 export const transactionStatusEnum = pgEnum('transaction_status', ['success', 'failed']);

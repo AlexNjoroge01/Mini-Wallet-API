@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import { WalletService } from './wallet.service';
 
 export const createWallet = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +14,7 @@ export const createWallet = async (req: Request, res: Response, next: NextFuncti
 export const getWallet = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const wallet = await WalletService.getWalletById(id);
+    const wallet = await WalletService.getWalletById(id as string);
     res.status(200).json({ success: true, data: wallet });
   } catch (err) {
     next(err);
@@ -26,7 +26,7 @@ export const getTransactionHistory = async (req: Request, res: Response, next: N
     const { id } = req.params;
     const limit = parseInt(req.query.limit as string) || 50;
     const offset = parseInt(req.query.offset as string) || 0;
-    const history = await WalletService.getTransactionHistory(id, limit, offset);
+    const history = await WalletService.getTransactionHistory(id as string, limit, offset);
     res.status(200).json({ success: true, data: history });
   } catch (err) {
     next(err);

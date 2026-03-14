@@ -10,14 +10,14 @@ describe('POST /transactions/deposit', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ owner_name: 'Charlie' })
     });
-    const { data: wallet } = await createRes.json();
+    const { data: wallet }: any = await createRes.json();
 
     const res = await fetch(`${BASE_URL}/transactions/deposit`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ wallet_id: wallet.id, amount: '150.00' })
     });
-    const body = await res.json();
+    const body: any = await res.json();
 
     expect(res.status).toBe(200);
     expect(body.success).toBe(true);
@@ -25,12 +25,12 @@ describe('POST /transactions/deposit', () => {
 
     // Check balance
     const walletRes = await fetch(`${BASE_URL}/wallets/${wallet.id}`);
-    const walletBody = await walletRes.json();
+    const walletBody: any = await walletRes.json();
     expect(walletBody.data.balance).toBe('150.00');
 
     // Check transaction history
     const historyRes = await fetch(`${BASE_URL}/wallets/${wallet.id}/transactions`);
-    const historyBody = await historyRes.json();
+    const historyBody: any = await historyRes.json();
     expect(historyBody.data.length).toBe(1);
     expect(historyBody.data[0].amount).toBe('150.00');
   });
@@ -77,7 +77,7 @@ describe('POST /transactions/deposit', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ owner_name: 'Dave' })
     });
-    const { data: wallet } = await createRes.json();
+    const { data: wallet }: any = await createRes.json();
 
     const reqBody = JSON.stringify({
       wallet_id: wallet.id,
@@ -90,14 +90,14 @@ describe('POST /transactions/deposit', () => {
       headers: { 'Content-Type': 'application/json' },
       body: reqBody
     });
-    const body1 = await res1.json();
+    const body1: any = await res1.json();
 
     const res2 = await fetch(`${BASE_URL}/transactions/deposit`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: reqBody
     });
-    const body2 = await res2.json();
+    const body2: any = await res2.json();
 
     expect(res1.status).toBe(200);
     expect(res2.status).toBe(200);
@@ -106,7 +106,7 @@ describe('POST /transactions/deposit', () => {
 
     // Balance should only be 50.00
     const walletRes = await fetch(`${BASE_URL}/wallets/${wallet.id}`);
-    const walletBody = await walletRes.json();
+    const walletBody: any = await walletRes.json();
     expect(walletBody.data.balance).toBe('50.00');
   });
 });

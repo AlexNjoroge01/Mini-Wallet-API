@@ -9,13 +9,13 @@ describe('POST /transactions/transfer', () => {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ owner_name: 'Sender' })
     });
-    const { data: sender } = await sRes.json();
+    const { data: sender }: any = await sRes.json();
 
     const rRes = await fetch(`${BASE_URL}/wallets`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ owner_name: 'Receiver' })
     });
-    const { data: receiver } = await rRes.json();
+    const { data: receiver }: any = await rRes.json();
 
     await fetch(`${BASE_URL}/transactions/deposit`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -33,19 +33,19 @@ describe('POST /transactions/transfer', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sender_wallet_id: sender.id, receiver_wallet_id: receiver.id, amount: '250.00' })
     });
-    const body = await res.json();
+    const body: any = await res.json();
 
     expect(res.status).toBe(200);
     expect(body.success).toBe(true);
 
     const sCheck = await fetch(`${BASE_URL}/wallets/${sender.id}`);
-    expect((await sCheck.json()).data.balance).toBe('750.00');
+    expect(((await sCheck.json()) as any).data.balance).toBe('750.00');
 
     const rCheck = await fetch(`${BASE_URL}/wallets/${receiver.id}`);
-    expect((await rCheck.json()).data.balance).toBe('250.00');
+    expect(((await rCheck.json()) as any).data.balance).toBe('250.00');
 
     const hCheck = await fetch(`${BASE_URL}/wallets/${sender.id}/transactions`);
-    const historyBody = await hCheck.json();
+    const historyBody: any = await hCheck.json();
     // history length = 2 (deposit + transfer)
     expect(historyBody.data.length).toBe(2);
   }, 15000);
@@ -63,7 +63,7 @@ describe('POST /transactions/transfer', () => {
     
     // Validate failed transaction was recorded
     const hCheck = await fetch(`${BASE_URL}/wallets/${sender.id}/transactions`);
-    const historyBody = await hCheck.json();
+    const historyBody: any = await hCheck.json();
     expect(historyBody.data.length).toBe(2);
     expect(historyBody.data[0].status).toBe('failed');
   });
@@ -125,14 +125,14 @@ describe('POST /transactions/transfer', () => {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: reqBody
     });
 
-    const body1 = await res1.json();
-    const body2 = await res2.json();
+    const body1: any = await res1.json();
+    const body2: any = await res2.json();
 
     expect(res1.status).toBe(200);
     expect(res2.status).toBe(200);
     expect(body1.data.id).toBe(body2.data.id);
 
     const sCheck = await fetch(`${BASE_URL}/wallets/${sender.id}`);
-    expect((await sCheck.json()).data.balance).toBe('950.00'); // Deducted only once
+    expect(((await sCheck.json()) as any).data.balance).toBe('950.00'); // Deducted only once
   });
 });

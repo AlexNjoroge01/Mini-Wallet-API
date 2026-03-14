@@ -10,7 +10,7 @@ describe('POST /wallets', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ owner_name: 'Alex' })
     });
-    const body = await res.json();
+    const body: any = await res.json();
 
     expect(res.status).toBe(201);
     expect(body.success).toBe(true);
@@ -24,7 +24,7 @@ describe('POST /wallets', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({})
     });
-    const body = await res.json();
+    const body: any = await res.json();
 
     expect(res.status).toBe(400);
     expect(body.success).toBe(false);
@@ -37,7 +37,7 @@ describe('POST /wallets', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ owner_name: '' })
     });
-    const body = await res.json();
+    const body: any = await res.json();
 
     expect(res.status).toBe(400);
   });
@@ -50,10 +50,10 @@ describe('GET /wallets/:id', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ owner_name: 'Bob' })
     });
-    const { data: wallet } = await createRes.json();
+    const { data: wallet }: any = await createRes.json();
 
     const res = await fetch(`${BASE_URL}/wallets/${wallet.id}`);
-    const body = await res.json();
+    const body: any = await res.json();
 
     expect(res.status).toBe(200);
     expect(body.data.id).toBe(wallet.id);
@@ -61,7 +61,7 @@ describe('GET /wallets/:id', () => {
 
   it('returns 404 for non-existent ID', async () => {
     const res = await fetch(`${BASE_URL}/wallets/123e4567-e89b-12d3-a456-426614174000`);
-    const body = await res.json();
+    const body: any = await res.json();
     
     expect(res.status).toBe(404);
     expect(body.error.code).toBe('WALLET_NOT_FOUND');
@@ -69,7 +69,7 @@ describe('GET /wallets/:id', () => {
 
   it('returns 400 for invalid UUID format', async () => {
     const res = await fetch(`${BASE_URL}/wallets/invalid-id`);
-    const body = await res.json();
+    const body: any = await res.json();
 
     expect(res.status).toBe(400);
     expect(body.error.code).toBe('VALIDATION_ERROR');
